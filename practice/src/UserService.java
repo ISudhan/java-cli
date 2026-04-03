@@ -10,7 +10,7 @@ public class UserService {
         }
 
         for(User u:users){
-            if(u.name.equals(name)) {
+            if(u.getName().equals(name)) {
                 System.out.println("User already Exist");
                 return;
             }
@@ -28,18 +28,17 @@ public class UserService {
 
         System.out.println("User List:");
         for (int i = 0;i<users.size();i++) {
-            System.out.println(i+1 + ". " + users.get(i).name);
+            System.out.println(i+1 + ". " + users.get(i).getName());
         }
     }
     
-    public void deleteUser(String name){
-        for(int i = 0;i<users.size();i++){
-            if(users.get(i).name.equals(name)){
-                users.remove(i);
-                System.out.println("User removed Successfully!");
-                return;
-            }
+    public void deleteUser(int index){
+        if (index < 0 || index >= users.size()) {
+            System.out.println("Invalid index");
+            return;
         }
-        System.out.println("User Not Found");
+        String removedName = users.get(index).getName();    
+        users.remove(index);
+        System.out.println("User " + removedName + " removed successfully!");
     }
 }

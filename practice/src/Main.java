@@ -21,11 +21,19 @@ public class Main {
                     break;
 
                 case "3":
-                    System.out.print("Enter user name to delete: ");
-                    String dname = sc.nextLine();
-                    service.deleteUser(dname);
+                    service.viewUsers();
+                    System.out.print("Enter index to delete: ");
+                    
+                    if (sc.hasNextInt()) {
+                        int index = sc.nextInt();
+                        sc.nextLine(); // consume newline
+                        service.deleteUser(index - 1);
+                    } else {
+                        System.out.println("Invalid input");
+                        sc.nextLine(); // clear garbage
+                    }
                     break;
-
+                    
                 case "4":
                     System.out.println("Thank you!");
                     sc.close();

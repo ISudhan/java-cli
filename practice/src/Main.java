@@ -1,26 +1,33 @@
 import java.util.*;
+
 public class Main {
-    public static void main(String args[]){
+    public static void main(String args[]) {
         Scanner sc = new Scanner(System.in);
-        System.out.println("Enter Your Name: ");
-        String name = sc.nextLine();
-        System.out.println("Enter Your Age: ");
-        boolean eligible=false;;
-        if(sc.hasNextInt()){
-            int age = sc.nextInt();
-            if(age<0){
-                System.out.println("Invalid Age");
-                return;
+        UserService service = new UserService();
+
+        while (true) {
+            System.out.println("\n1. Add User\n2. View Users\n3. Exit");
+            String choice = sc.nextLine();
+
+            switch (choice) {
+                case "1":
+                    System.out.print("Enter user name: ");
+                    String name = sc.nextLine();
+                    service.addUser(name);
+                    break;
+
+                case "2":
+                    service.viewUsers();
+                    break;
+
+                case "3":
+                    System.out.println("Thank you!");
+                    sc.close();
+                    return;
+
+                default:
+                    System.out.println("Invalid choice");
             }
-            if(age>120){
-                System.out.println("Unrealistic Age");
-                return;
-            }
-            if(age>=18) eligible=true;
         }
-        System.out.println("Hello "+name);
-        String p = eligible?"Eligible":"Not Eligible";
-        System.out.println("You're "+p);
-        sc.close();
     }
 }

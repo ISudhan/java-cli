@@ -1,6 +1,7 @@
-import java.util.*;
 public class User {
-    public static void main(String[] args) {
-        
+    String name;
+
+    public User(String name) {
+        this.name = name;
     }
 }

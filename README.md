@@ -18,9 +18,11 @@ This repository contains small, focused CLI applications written in pure Java �
 java-cli-projects/
 ├── project-1/
 │   ├── src/
+│   ├── bin/
 │   └── README.md
 ├── project-2/
 │   ├── src/
+│   ├── bin/
 │   └── README.md
 └── ...
 ```

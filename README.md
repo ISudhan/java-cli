@@ -15,7 +15,7 @@ This repository contains small, focused CLI applications written in pure Java �
 ## 📁 Project Structure
 
 ```
-java-cli-projects/
+java-cli/
 ├── project-1/
 │   ├── src/
 │   ├── bin/

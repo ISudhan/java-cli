@@ -30,11 +30,11 @@ java-cli-projects/
 1. Navigate to a project folder
 2. Compile the source file:
    ```bash
-   javac src/Main.java
+   javac -d bin src/Main.java
    ```
 3. Run the program:
    ```bash
-   java -cp src Main
+   java -cp bin Main
    ```
 
 ## 💡 Topics Practiced

@@ -6,7 +6,7 @@ public class Main {
         UserService service = new UserService();
 
         while (true) {
-            System.out.println("\n1. Add User\n2. View Users\n3. Exit");
+            System.out.println("\n1. Add User\n2. View Users\n3. Delete User\n4. Exit");
             String choice = sc.nextLine();
 
             switch (choice) {
@@ -21,6 +21,12 @@ public class Main {
                     break;
 
                 case "3":
+                    System.out.print("Enter user name to delete: ");
+                    String dname = sc.nextLine();
+                    service.deleteUser(dname);
+                    break;
+
+                case "4":
                     System.out.println("Thank you!");
                     sc.close();
                     return;

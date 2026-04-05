@@ -6,7 +6,7 @@ public class Main {
         UserService service = new UserService();
 
         while (true) {
-            System.out.println("\n1. Add User\n2. View Users\n3. Delete User\n4. Exit");
+            System.out.println("\n1. Add User\n2. View Users\n3. Delete User\n4. Search User\n5. Update User\n6. Exit\n");
             String choice = sc.nextLine();
 
             switch (choice) {
@@ -26,15 +26,30 @@ public class Main {
                     
                     if (sc.hasNextInt()) {
                         int index = sc.nextInt();
-                        sc.nextLine(); // consume newline
-                        service.deleteUser(index - 1);
+                        sc.nextLine(); 
+                        service.deleteUser(index);
                     } else {
                         System.out.println("Invalid input");
-                        sc.nextLine(); // clear garbage
+                        sc.nextLine();
                     }
                     break;
-                    
+
                 case "4":
+                    System.out.print("Enter user name: ");
+                    String userName = sc.nextLine();
+                    if(service.searchUser(userName) == 1) System.out.println("Found");
+                    else System.out.println("User not in the list");
+                    break;
+                
+                case "5":
+                    System.out.println("Enter old user name: ");
+                    String oldName = sc.nextLine();
+                    System.out.println("Enter new user name: ");
+                    String newName = sc.nextLine();
+                    service.updateUser(oldName,newName);                    
+                    break;
+                
+                case "6":
                     System.out.println("Thank you!");
                     sc.close();
                     return;

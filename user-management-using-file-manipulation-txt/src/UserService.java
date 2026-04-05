@@ -6,52 +6,21 @@ import java.io.IOException;
 import java.io.File;
 
 public class UserService {
-    private String idFile = "id.txt";
-    private String fileName = "user.csv";
-
-    private int getID(){
-        File isAvailableIdFile = new File(idFile);
-        if(!isAvailableIdFile.exists()) {
-            return 0;
-        }
-
-        try(BufferedReader myIdFile = new BufferedReader(new FileReader(idFile))){
-            String line;
-            if((line = myIdFile.readLine()) != null){
-                int maxId = Integer.parseInt(line);
-                return maxId;
-            }
-            System.out.println("No id Found in ID file");
-            myIdFile.close();
-        }catch(Exception e){
-            System.out.println("Error in finding next id "+e);
-        }
-        return 0;
-    }
-
-    private void updateId(int newID){
-        try(BufferedWriter myIdFile = new BufferedWriter(new FileWriter(idFile))){
-            myIdFile.write(""+newID);
-            myIdFile.close();
-        }catch(Exception e){
-            System.out.println("Error "+e);
-        }
-    }
+    private String fileName = "user.txt";
     public void addUser(String name) {
         if (name.trim().isEmpty()) {
             System.out.println("Invalid name");
             return;
         }
-        if(searchUser(0,name)){
+        if(searchUser(name) == 1){
             System.out.println("User already Exist");
             return;
         }
         try(BufferedWriter myFile = new BufferedWriter(new FileWriter(fileName,true))){
-            int userID = getID()+1;
-            updateId(userID);
-            myFile.write(userID+","+name);
+            myFile.write(name);
             myFile.newLine();
             System.out.println("User added Successfully");
+            myFile.close();
         }
         catch(IOException e){
             System.out.println("Error writing file."+e);
@@ -61,20 +30,22 @@ public class UserService {
     public void viewUsers(){
         File isAvailaFile = new File(fileName);
         if(!isAvailaFile.exists()) {
-            System.out.println("User not exist");
+            System.out.println("File not exist");
             return;
         }
         try(BufferedReader myFile = new BufferedReader(new FileReader(fileName))) {
             System.out.println("User List:");
             String line;
-            while((line = myFile.readLine()) != null){
-                System.out.println("ID: "+line.split(",")[0]+" Name: "+line.split(",")[1]);
+            for(int i=1;(line = myFile.readLine()) != null;i++){
+                System.out.println(i+". "+line);
             }
+            myFile.close();
+
         } catch (Exception e) {
             System.out.println("Error reading file."+e);
         }
     }
-    public void deleteUser(int delID){
+    public void deleteUser(int n){
         File isAvailaFile = new File(fileName);
         if(!isAvailaFile.exists()) {
             System.out.println("File not exist");
@@ -88,8 +59,8 @@ public class UserService {
             System.out.println("User List:");
             String line;
             boolean found = false;
-            while((line = myFileRead.readLine()) != null){
-                if(Integer.parseInt(line.split(",")[0]) != delID){
+            for(int i = 1;(line = myFileRead.readLine()) != null;i++){
+                if(i != n){
                     myFileWrite.write(line);
                     myFileWrite.newLine();
                 }
@@ -99,7 +70,6 @@ public class UserService {
             myFileRead.close();
             if(!found){
                 System.out.println("User not exist");
-                tempFile.delete();
                 return;
             }
             if(userFile.delete()){
@@ -111,29 +81,26 @@ public class UserService {
             System.out.println("Error reading file."+e);
         }
     }
-    public boolean searchUser(int userId,String name){
+    public int searchUser(String userName){
         File isAvailaFile = new File(fileName);
         if(!isAvailaFile.exists()) {
-            return false;
+            System.out.println("File not exist");
+            return 0;
         }
         try(BufferedReader myFile = new BufferedReader(new FileReader(fileName))){
             String line;
             while((line=myFile.readLine()) != null){
-                if(userId != 0 && !name.isEmpty()) {
-                if(Integer.parseInt(line.split(",")[0]) == userId && line.split(",")[1].equalsIgnoreCase(name)) return true;
-                } else if(userId != 0) {
-                    if(Integer.parseInt(line.split(",")[0]) == userId) return true;
-                } else if(!name.isEmpty()) {
-                    if(line.split(",")[1].equalsIgnoreCase(name)) return true;
+                if(line.equalsIgnoreCase(userName)){
+                    myFile.close();
+                    return 1;
                 }
             }
-
         }catch(Exception e){
             System.out.println("Error in file opening "+e);
         }
-        return false;
+        return 0;
     }
-    public void updateUser(int id,String newName){
+    public void updateUser(String oldName,String newName){
         File isAvailaFile = new File(fileName);
         if(!isAvailaFile.exists()) {
             System.out.println("File not exist");
@@ -148,13 +115,12 @@ public class UserService {
             String line;
             boolean found = false;
             while((line=myFileRead.readLine()) != null){
-                if(Integer.parseInt(line.split(",")[0]) != id) {
+                if(!line.equalsIgnoreCase(oldName)) {
                     myFileWrite.write(line);
                     myFileWrite.newLine();
                 }
                 else {
-                    myFileWrite.write(line.split(",")[0]+","+newName);
-                    myFileWrite.newLine();
+                    myFileWrite.write(newName);
                     found = true;
                 }
             }
@@ -162,7 +128,6 @@ public class UserService {
             myFileRead.close();
             if(!found){
                 System.out.println("Cannot update user not exist");
-                tempFile.delete();
                 return;
             }
             else{

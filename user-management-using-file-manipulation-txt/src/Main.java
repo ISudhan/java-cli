@@ -22,7 +22,7 @@ public class Main {
 
                 case "3":
                     service.viewUsers();
-                    System.out.print("Enter userID to delete: ");
+                    System.out.print("Enter index to delete: ");
                     
                     if (sc.hasNextInt()) {
                         int index = sc.nextInt();
@@ -35,26 +35,18 @@ public class Main {
                     break;
 
                 case "4":
-                    System.out.print("Enter user id: ");
-                    int userId = sc.nextInt();
-                    sc.nextLine();
-                    System.out.print("Enter use name: ");
-                    String searchName = sc.nextLine();
-                    if(userId == 0 && searchName.equals("")){
-                        System.out.println("Invalid search");
-                        break;
-                    }
-                    if(service.searchUser(userId,searchName)) System.out.println("Found");
+                    System.out.print("Enter user name: ");
+                    String userName = sc.nextLine();
+                    if(service.searchUser(userName) == 1) System.out.println("Found");
                     else System.out.println("User not in the list");
                     break;
                 
                 case "5":
                     System.out.println("Enter old user name: ");
-                    int id = sc.nextInt();
-                    sc.nextLine();
+                    String oldName = sc.nextLine();
                     System.out.println("Enter new user name: ");
                     String newName = sc.nextLine();
-                    service.updateUser(id,newName);                    
+                    service.updateUser(oldName,newName);                    
                     break;
                 
                 case "6":

@@ -42,7 +42,7 @@ public class Main {
                         sc.nextLine();
                         System.out.print("Enter user Name: ");
                         String newUserName = sc.nextLine();
-                        if(newUserName.trim() == ""){
+                        if(newUserName.trim().isEmpty()){
                             System.out.println("Invalid Name");
                             break;
                         }
